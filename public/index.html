@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Air Quality Tracker</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="w-screen h-screen">
+    <main class="w-[100%] h-[95%]">
+      <div>
+        <h1>Air Quality Index (AQI) Tracker</h1>
+        <input type="text" id="cityInput" placeholder="Enter city name" />
+        <button class="text-center" onclick="getAirQuality()">
+          Get Air Quality
+        </button>
+        <div id="result"></div>
+      </div>
+    </main>
+    <footer class="w-[100%] h-[5%] flex justify-start items-center">
+      <p>&copy;Rama Putra, 2024.</p>
+    </footer>
+
+    <script src="../app.js"></script>
+  </body>
+</html>
