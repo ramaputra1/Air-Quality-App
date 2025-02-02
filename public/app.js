@@ -1,6 +1,6 @@
-const apiKey = "7eb0da41b19c410c4e385b20a42d4509"; // Masukkan API key dari OpenWeatherMap
+const apiKey = "7eb0da41b19c410c4e385b20a42d4509"; // API key OpenWeatherMap
 
-// Fungsi untuk mendapatkan kualitas udara berdasarkan kota
+// Function to get each city
 async function getAirQuality() {
   const city = document.getElementById("cityInput").value;
   if (!city) {
@@ -9,7 +9,7 @@ async function getAirQuality() {
   }
 
   try {
-    // Dapatkan koordinat kota menggunakan Current Weather API
+    // Coordinat Current Weather API
     const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
     const weatherResponse = await fetch(weatherUrl);
     const weatherData = await weatherResponse.json();
@@ -21,12 +21,12 @@ async function getAirQuality() {
 
     const { lat, lon } = weatherData.coord;
 
-    // Dapatkan data kualitas udara menggunakan Air Pollution API
+    // Air Polution API
     const airQualityUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${apiKey}`;
     const airQualityResponse = await fetch(airQualityUrl);
     const airQualityData = await airQualityResponse.json();
 
-    // Proses data AQI dan tampilkan ke halaman
+    // Print
     displayAirQuality(airQualityData, city);
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -34,11 +34,68 @@ async function getAirQuality() {
   }
 }
 
-// Fungsi untuk menampilkan hasil AQI di halaman
+// Styling
 function displayAirQuality(data, city) {
   const aqi = data.list[0].main.aqi;
   const components = data.list[0].components;
 
+  // BG Manipulation
+  const mainElement = document.querySelector("body"); // Get the <main> element
+
+  // Reset BG
+  document.body.classList.remove(
+    "bg-gradient-to-r",
+    "from-blue-300", // 1
+    "to-white",
+    "from-blue-500", // 2
+    "to-white",
+    "from-blue-900", // 3
+    "to-white",
+    "from-indigo-900", // 4
+    "to-white",
+    "from-gray-900", // 5
+    "to-white"
+  );
+
+  switch (aqi) {
+    case 1:
+      mainElement.classList.add(
+        "bg-gradient-to-r",
+        "from-blue-300",
+        "to-white"
+      );
+      break;
+    case 2:
+      mainElement.classList.add(
+        "bg-gradient-to-r",
+        "from-blue-500",
+        "to-white"
+      );
+      break;
+    case 3:
+      mainElement.classList.add(
+        "bg-gradient-to-r",
+        "from-blue-900",
+        "to-white"
+      );
+      break;
+    case 4:
+      mainElement.classList.add(
+        "bg-gradient-to-r",
+        "from-indigo-900",
+        "to-white"
+      );
+      break;
+    case 5:
+      mainElement.classList.add(
+        "bg-gradient-to-r",
+        "from-gray-900",
+        "to-white"
+      );
+      break;
+  }
+
+  // Display the AQI information on the page
   const resultDiv = document.getElementById("result");
   resultDiv.innerHTML = `
     <h2>Air Quality in ${city}</h2>
@@ -51,7 +108,7 @@ function displayAirQuality(data, city) {
   `;
 }
 
-// Fungsi untuk mendapatkan deskripsi dari AQI
+// AQI Desc
 function getAQIDescription(aqi) {
   switch (aqi) {
     case 1:
